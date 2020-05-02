@@ -3,6 +3,9 @@ When I designed my house last year, I want to fill my wall with photo frames fro
 
 
 
+![alt text](https://raw.githubusercontent.com/thangman22/photoframe-designer/master/screenshot.png "Screenshot")
+
+
 ## Development
 ```
 yarn install
