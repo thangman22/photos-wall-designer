@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="header">
-      IKEA Photo Frames Designer
+      Photos wall Designer
     </div>
     <avaliableFramesList @frameClick="addFrame" />
     <div id="canvas-container">
@@ -19,7 +19,7 @@
       />
     </div>
     <div id="footer">
-      Build with 🧡 by @thangman22
+      This is non-official tools and non profit. Build with 🧡 by <a href="https://twitter.com/thangman22">@thangman22</a>
     </div>
   </div>
 </template>
