@@ -2,6 +2,6 @@
   <g fill="none" fill-rule="evenodd" transform="translate(1 1)">
     <rect width="320" height="420" fill="#FFF" stroke="#979797"/>
     <rect width="300" height="400" x="10" y="10" fill="#FFF" stroke="#979797"/>
-    <rect width="200" height="290" x="60" y="65" fill="#E5E5EA"/>
+    <rect width="200" height="290" x="60" y="65" fill="#E5E5EA" id="photo-area"/>
   </g>
 </svg>

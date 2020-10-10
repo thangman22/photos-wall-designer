@@ -1,4 +1,4 @@
-<template>
+`<template>
   <vue-draggable-resizable
     :key="frame.key"
     :w="frame.width"
@@ -11,7 +11,7 @@
     <div
       :id="`frame-${frame.key}`"
       class="frame"
-      :style="{ width: `${frame.width}px`,height: `${frame.height}px`, background: `url('${frame.background}')`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', paddingTop: '5px', paddingRight: '5px', textAlign: 'right', transform: frame.rorate ? 'rotate(90deg)' : 'rotate(0deg)'}"
+      :style="{ width: `${frame.width}px`,height: `${frame.height}px`, backgroundImage: `url('${realImage}'), url('${frame.background}')`, backgroundPosition: `${imageX}px ${imageY}px, left top`, backgroundSize: `${imageWidth}px ${imageHeight}px, contain`, backgroundRepeat: 'no-repeat, no-repeat', textAlign: 'right', transform: frame.rorate ? 'rotate(90deg)' : 'rotate(0deg)'}"
       @mouseover="showIcon()"
       @mouseleave="hideIcon()"
     >
@@ -56,10 +56,30 @@ export default {
   },
   data() {
     return {
-      mouseOverId: false
+      mouseOverId: false,
+      imageWidth: 0,
+      imageHeight: 0,
+      imageX: 0,
+      imageY: 0,
+      realImage: '',
+      framePow: 3.6
     };
   },
+  async mounted () {
+    await this.addImge()
+  },
   methods: {
+    async addImge () {
+    let req = await fetch(this.frame.background)
+    let svgStr = await req.text();
+    let parser = new DOMParser();
+    let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
+    this.imageWidth = (svgDom.getElementById('photo-area').getAttribute('width') / 10) * this.framePow
+    this.imageHeight = (svgDom.getElementById('photo-area').getAttribute('height') / 10) * this.framePow
+    this.imageX = (svgDom.getElementById('photo-area').getAttribute('x') / 10) * this.framePow
+    this.imageY = (svgDom.getElementById('photo-area').getAttribute('y') / 10) * this.framePow
+    this.realImage = `https://via.placeholder.com/${svgDom.getElementById('photo-area').getAttribute('width')}x${svgDom.getElementById('photo-area').getAttribute('height')}`
+    },
     onDrag(x, y) {
       this.$emit("drag", { id: `frame-${this.frame.key}`, x: x, y: y });
     },
@@ -81,7 +101,8 @@ export default {
 }
 .action-icon {
   display: inline-block;
-  margin-right: 3px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 .frame-img {
   margin-bottom: 5px;

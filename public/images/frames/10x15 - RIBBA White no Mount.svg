@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="122" height="172" viewBox="0 0 122 172">
   <g fill="none" fill-rule="evenodd" stroke="#979797" transform="translate(1 1)">
     <rect width="120" height="170" fill="#FFF"/>
-    <rect width="100" height="150" x="10" y="10" fill="#E5E5EA"/>
+    <rect width="100" height="150" x="10" y="10" fill="#E5E5EA" id="photo-area"/>
   </g>
 </svg>

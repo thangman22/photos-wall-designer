@@ -1,11 +1,8 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import VueDraggableResizable from 'vue-draggable-resizable'
 import './registerServiceWorker'
-Vue.component('vue-draggable-resizable', VueDraggableResizable)
 
-Vue.config.productionTip = false
+const app = createApp(App).mount("#app");
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+app.component('vue-draggable-resizable', VueDraggableResizable)

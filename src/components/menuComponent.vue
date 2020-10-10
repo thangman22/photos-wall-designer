@@ -30,6 +30,7 @@
         :height="30"
       />
     </div>
+
     <div
       v-show="showSummary"
       id="frame-summary"
@@ -84,7 +85,7 @@ export default {
   },
   methods: {
     openPrintDialog() {
-      window.print()
+      window.print();
     },
     toggleSummary() {
       this.showSummary = !this.showSummary;

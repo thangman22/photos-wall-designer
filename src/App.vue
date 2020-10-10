@@ -19,7 +19,10 @@
       />
     </div>
     <div id="footer">
-      This is non-official tools and non profit. Build with 🧡 by <a href="https://twitter.com/thangman22">@thangman22</a>
+      This is non-official tools and non profit. Build with 🧡 by
+      <a
+        href="https://twitter.com/thangman22"
+      >@thangman22</a> You can fork this project at <a href="https://github.com/thangman22/photos-wall-designer">Github</a>
     </div>
   </div>
 </template>
@@ -58,13 +61,19 @@ export default {
     clearFrames() {
       this.frames = {};
     },
-    addFrame(frameDetail) {
+    async addFrame(frameDetail) {
       let id = Date.now();
       const canvasElement = document.getElementById("canvas-container");
+      
+      let req = await fetch(frameDetail.url)
+      let svgStr = await req.text();
+      let parser = new DOMParser();
+      let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
+
       let frameObject = {
         key: id,
-        width: frameDetail.width * this.framePow,
-        height: frameDetail.height * this.framePow,
+        width: (svgDom.querySelectorAll('rect')[0].getAttribute('width') / 10) * this.framePow,
+        height: (svgDom.querySelectorAll('rect')[0].getAttribute('height') / 10) * this.framePow,
         background: frameDetail.url,
         rorate: false,
         x: Math.round(canvasElement.offsetWidth / 2),
@@ -122,17 +131,17 @@ export default {
   .menu-button {
     display: none !important;
   }
-  #frame-summary{
+  #frame-summary {
     position: fixed;
     bottom: 0;
     right: 0;
     display: block !important;
   }
-  #frames-select-container{
+  #frames-select-container {
     display: none;
   }
-    
-  #canvas-container{
+
+  #canvas-container {
     grid-row-start: 2;
   }
 
