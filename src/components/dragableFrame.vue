@@ -35,6 +35,16 @@
           :height="20"
         />
       </div>
+      <div
+        class="action-icon picture-icon"
+        @click="ChangeImage()"
+      >
+        <ImageMultiple
+          v-if="mouseOverId === true"
+          :width="20"
+          :height="20"
+        />
+      </div>
     </div>
   </vue-draggable-resizable>
 </template>
@@ -42,9 +52,11 @@
 <script>
 import CloseCircleOutline from "mdi-vue/CloseCircleOutline.vue";
 import FormatRotate90 from "mdi-vue/FormatRotate90.vue";
+import ImageMultiple from "mdi-vue/ImageMultiple.vue";
 export default {
   name: "DragableFrame",
   components: {
+    ImageMultiple,
     CloseCircleOutline,
     FormatRotate90
   },
@@ -66,19 +78,30 @@ export default {
     };
   },
   async mounted () {
-    await this.addImge()
+    await this.initImage()
   },
   methods: {
-    async addImge () {
-    let req = await fetch(this.frame.background)
-    let svgStr = await req.text();
-    let parser = new DOMParser();
-    let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
-    this.imageWidth = (svgDom.getElementById('photo-area').getAttribute('width') / 10) * this.framePow
-    this.imageHeight = (svgDom.getElementById('photo-area').getAttribute('height') / 10) * this.framePow
-    this.imageX = (svgDom.getElementById('photo-area').getAttribute('x') / 10) * this.framePow
-    this.imageY = (svgDom.getElementById('photo-area').getAttribute('y') / 10) * this.framePow
-    this.realImage = `https://via.placeholder.com/${svgDom.getElementById('photo-area').getAttribute('width')}x${svgDom.getElementById('photo-area').getAttribute('height')}`
+    async ChangeImage () {
+      let currentImage = this.realImage
+      this.realImage = prompt("Please put your Image URL", this.realImage) || currentImage;
+      this.$emit('imageChanged',{ id: `frame-${this.frame.key}`, url :this.realImage })
+    },
+    async initImage () {
+
+      let req = await fetch(this.frame.background)
+      let svgStr = await req.text();
+      let parser = new DOMParser();
+      let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
+      this.imageWidth = (svgDom.getElementById('photo-area').getAttribute('width') / 10) * this.framePow
+      this.imageHeight = (svgDom.getElementById('photo-area').getAttribute('height') / 10) * this.framePow
+      this.imageX = (svgDom.getElementById('photo-area').getAttribute('x') / 10) * this.framePow
+      this.imageY = (svgDom.getElementById('photo-area').getAttribute('y') / 10) * this.framePow
+      if(this.frame.image) {
+        this.realImage = this.frame.image
+      } else {
+        this.realImage = `https://via.placeholder.com/${svgDom.getElementById('photo-area').getAttribute('width')}x${svgDom.getElementById('photo-area').getAttribute('height')}`
+      }
+      this.$emit('imageChanged',{ id: `frame-${this.frame.key}`, url :this.realImage })
     },
     onDrag(x, y) {
       this.$emit("drag", { id: `frame-${this.frame.key}`, x: x, y: y });

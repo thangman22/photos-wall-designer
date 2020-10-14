@@ -11,6 +11,7 @@
         :frame="frame"
         @rotateClick="rotateFrame"
         @deleteClick="deleteFrame"
+        @imageChanged="changeFrameImage"
         @drag="setFramePostion"
       />
       <menuComponent
@@ -51,11 +52,14 @@ export default {
       deep: true,
       handler() {
         localStorage["frames-designer:frames"] = JSON.stringify(this.frames);
+        console.log('Save', this.frames)
       }
     }
   },
   mounted() {
-    this.frames = JSON.parse(localStorage["frames-designer:frames"]);
+    if(localStorage["frames-designer:frames"]) {
+      this.frames = JSON.parse(localStorage["frames-designer:frames"]);
+    }
   },
   methods: {
     clearFrames() {
@@ -75,6 +79,7 @@ export default {
         width: (svgDom.querySelectorAll('rect')[0].getAttribute('width') / 10) * this.framePow,
         height: (svgDom.querySelectorAll('rect')[0].getAttribute('height') / 10) * this.framePow,
         background: frameDetail.url,
+        image: null,
         rorate: false,
         x: Math.round(canvasElement.offsetWidth / 2),
         y: Math.round(canvasElement.offsetHeight / 2)
@@ -85,15 +90,16 @@ export default {
     rotateFrame(id) {
       this.frames[id].rorate = !this.frames[id].rorate;
     },
+    changeFrameImage({id, url}) {
+      console.log(this.frames)
+      this.frames[id].image = url;
+    },
     deleteFrame(id) {
       this.$delete(this.frames, id);
     },
     setFramePostion({ id, x, y }) {
       this.frames[id].x = x;
       this.frames[id].y = y;
-    },
-    setPosition(y, x) {
-      console.log(y, x);
     }
   }
 };
