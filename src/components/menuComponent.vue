@@ -106,7 +106,7 @@ export default {
 #frame-summary {
   padding: 10px;
   background: #fff;
-  border: #263238 1px solid;
+  border: #023047 1px solid;
 }
 
 #frame-summary > h3 {
@@ -131,6 +131,6 @@ export default {
   background: #fff;
 }
 #delete-button {
-  color: #ff867c;
+  color: #f94144;
 }
 </style>

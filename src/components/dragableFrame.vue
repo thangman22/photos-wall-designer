@@ -5,6 +5,7 @@
     :h="frame.height"
     :y="frame.y"
     :x="frame.x"
+    :style="{padding: `${padding}px`, border: spacingStyle}"
     :resizable="false"
     @dragging="onDrag"
   >
@@ -68,16 +69,22 @@ export default {
   },
   data() {
     return {
+      spacingStyle: '',
+      padding: 0,
       mouseOverId: false,
       imageWidth: 0,
       imageHeight: 0,
       imageX: 0,
       imageY: 0,
       realImage: '',
-      framePow: 3.6
+      framePow: 3.6,
+      margininCm: 10,
     };
   },
   async mounted () {
+    // this.spacingStyle = '#577590 1px solid'
+    this.padding = (this.margininCm / 10) * this.framePow
+    console.log(this.padding)
     await this.initImage()
   },
   methods: {
@@ -99,7 +106,7 @@ export default {
       if(this.frame.image) {
         this.realImage = this.frame.image
       } else {
-        this.realImage = `https://via.placeholder.com/${svgDom.getElementById('photo-area').getAttribute('width')}x${svgDom.getElementById('photo-area').getAttribute('height')}`
+        this.realImage = `https://dummyimage.com/${svgDom.getElementById('photo-area').getAttribute('width')}x${svgDom.getElementById('photo-area').getAttribute('height')}/f8f9fa/023047.png`
       }
       this.$emit('imageChanged',{ id: `frame-${this.frame.key}`, url :this.realImage })
     },
@@ -121,6 +128,7 @@ export default {
 <style>
 .vdr {
   position: absolute;
+  
 }
 .action-icon {
   display: inline-block;
@@ -130,10 +138,13 @@ export default {
 .frame-img {
   margin-bottom: 5px;
 }
+.picture-icon{
+  color: #f9c74f;  
+}
 .delete-icon {
-  color: #ff867c;
+  color: #f94144;
 }
 .rotate-icon {
-  color: #689f38;
+  color: #43aa8b;
 }
 </style>

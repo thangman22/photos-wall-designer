@@ -107,7 +107,7 @@ export default {
 
 <style>
 #app {
-  color: #263238;
+  color: #023047;
   display: grid;
   height: 97vh;
   grid-template-rows: 45px 130px auto 10px;
