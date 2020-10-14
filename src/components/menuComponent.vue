@@ -11,11 +11,11 @@
       />
     </div>
     <div
-      id="delete-button"
+      id="print-button"
       class="menu-button"
-      @click="$emit('deleteClick')"
+      @click="toggleSetting"
     >
-      <CloseCircleOutline
+      <Cog
         :width="30"
         :height="30"
       />
@@ -30,7 +30,16 @@
         :height="30"
       />
     </div>
-
+    <div
+      id="delete-button"
+      class="menu-button"
+      @click="clearFrames"
+    >
+      <CloseCircleOutline
+        :width="30"
+        :height="30"
+      />
+    </div>
     <div
       v-show="showSummary"
       id="frame-summary"
@@ -46,6 +55,27 @@
         </li>
       </ul>
     </div>
+    <div
+      id="frame-setting"
+    >
+      <h3>Setting</h3>
+      <div class="input-form">
+        <label for="margin">Margin </label><input
+          type="number"
+          name="margin"
+          value="10"
+          min="1"
+          max="30"
+        > cm
+      </div>
+      <div class="input-form">
+        <label for="bg">Background </label><input
+          type="color"
+          name="bg"
+          value="#FFFFFF"
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,10 +83,11 @@
 import CloseCircleOutline from "mdi-vue/CloseCircleOutline.vue";
 import InformationOutline from "mdi-vue/InformationOutline.vue";
 import Printer from "mdi-vue/Printer.vue";
+import Cog from "mdi-vue/Cog.vue";
 
 export default {
   name: "MenuComponent",
-  components: { InformationOutline, CloseCircleOutline, Printer },
+  components: { InformationOutline, CloseCircleOutline, Printer, Cog },
   props: {
     frames: {
       type: Object,
@@ -65,7 +96,8 @@ export default {
   },
   data() {
     return {
-      showSummary: false
+      showSummary: false,
+      toggleSetting: false
     };
   },
   computed: {
@@ -84,8 +116,14 @@ export default {
     }
   },
   methods: {
+    clearFrames () {
+      this.$store.commit('clearFrame')
+    },
     openPrintDialog() {
       window.print();
+    },
+    toggleSeeting () {
+      this.toggleSetting = !this.toggleSetting;
     },
     toggleSummary() {
       this.showSummary = !this.showSummary;
@@ -104,6 +142,12 @@ export default {
 }
 
 #frame-summary {
+  padding: 10px;
+  background: #fff;
+  border: #023047 1px solid;
+}
+
+#frame-setting {
   padding: 10px;
   background: #fff;
   border: #023047 1px solid;
@@ -132,5 +176,17 @@ export default {
 }
 #delete-button {
   color: #f94144;
+}
+.menu-button{
+  margin-bottom: 5px;
+}
+.input-form{
+  margin-bottom: 10px;
+}
+input[type="color"] {
+  border: 0 !important;
+  background: none !important;
+  height: 25px;
+  vertical-align: text-bottom;
 }
 </style>

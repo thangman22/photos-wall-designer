@@ -3,20 +3,15 @@
     <div id="header">
       Photos wall Designer
     </div>
-    <avaliableFramesList @frameClick="addFrame" />
+    <avaliableFramesList />
     <div id="canvas-container">
       <dragableFrame
         v-for="frame in frames"
         :key="frame.key"
         :frame="frame"
-        @rotateClick="rotateFrame"
-        @deleteClick="deleteFrame"
-        @imageChanged="changeFrameImage"
-        @drag="setFramePostion"
       />
       <menuComponent
         :frames="frames"
-        @deleteClick="clearFrames"
       />
     </div>
     <div id="footer">
@@ -42,64 +37,13 @@ export default {
   },
   data() {
     return {
-      frames: {},
       mouseOverId: null,
-      framePow: 3.6
+      
     };
   },
-  watch: {
-    frames: {
-      deep: true,
-      handler() {
-        localStorage["frames-designer:frames"] = JSON.stringify(this.frames);
-        console.log('Save', this.frames)
-      }
-    }
-  },
-  mounted() {
-    if(localStorage["frames-designer:frames"]) {
-      this.frames = JSON.parse(localStorage["frames-designer:frames"]);
-    }
-  },
-  methods: {
-    clearFrames() {
-      this.frames = {};
-    },
-    async addFrame(frameDetail) {
-      let id = Date.now();
-      const canvasElement = document.getElementById("canvas-container");
-      
-      let req = await fetch(frameDetail.url)
-      let svgStr = await req.text();
-      let parser = new DOMParser();
-      let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
-
-      let frameObject = {
-        key: id,
-        width: (svgDom.querySelectorAll('rect')[0].getAttribute('width') / 10) * this.framePow,
-        height: (svgDom.querySelectorAll('rect')[0].getAttribute('height') / 10) * this.framePow,
-        background: frameDetail.url,
-        image: null,
-        rorate: false,
-        x: Math.round(canvasElement.offsetWidth / 2),
-        y: Math.round(canvasElement.offsetHeight / 2)
-      };
-
-      this.$set(this.frames, `frame-${id}`, frameObject);
-    },
-    rotateFrame(id) {
-      this.frames[id].rorate = !this.frames[id].rorate;
-    },
-    changeFrameImage({id, url}) {
-      console.log(this.frames)
-      this.frames[id].image = url;
-    },
-    deleteFrame(id) {
-      this.$delete(this.frames, id);
-    },
-    setFramePostion({ id, x, y }) {
-      this.frames[id].x = x;
-      this.frames[id].y = y;
+  computed: {
+    frames () {
+      return this.$store.state.frames
     }
   }
 };

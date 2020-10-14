@@ -7,7 +7,7 @@
     >
       <div
         v-if="frame.type === 'frame'"
-        @click="frameClick(frame)"
+        @click="addFrame(frame)"
       >
         <img
           :src="frame.url"
@@ -48,9 +48,28 @@ export default {
     };
   },
   methods: {
-    frameClick(frameDetail) {
-      this.$emit("frameClick", frameDetail);
-    },
+    async addFrame(frameDetail) {
+      let id = Date.now();
+      const canvasElement = document.getElementById("canvas-container");
+      
+      let req = await fetch(frameDetail.url)
+      let svgStr = await req.text();
+      let parser = new DOMParser();
+      let svgDom = parser.parseFromString(svgStr, "image/svg+xml");
+
+      let frameObject = {
+        key: id,
+        width: (svgDom.querySelectorAll('rect')[0].getAttribute('width') / 10) * this.$store.state.framePow,
+        height: (svgDom.querySelectorAll('rect')[0].getAttribute('height') / 10) * this.$store.state.framePow,
+        background: frameDetail.url,
+        image: '',
+        rorate: false,
+        x: Math.round(canvasElement.offsetWidth / 2),
+        y: Math.round(canvasElement.offsetHeight / 2)
+      };
+
+      this.$store.commit('initFrame',{key:`frame-${id}`,frameObject: frameObject})
+    }
   },
 };
 </script>
