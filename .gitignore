@@ -22,4 +22,3 @@ yarn-error.log*
 
 #Remove all firebase file
 .firebase/*
-.firebaserc
