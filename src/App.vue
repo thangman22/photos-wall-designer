@@ -20,7 +20,7 @@
       />
     </div>
     <div id="footer">
-      This is non-official tools and non profit. Build with 🧡 by
+      Build with 🧡 by
       <a
         href="https://twitter.com/thangman22"
       >@thangman22</a> You can fork this project at <a href="https://github.com/thangman22/photos-wall-designer">Github</a>
