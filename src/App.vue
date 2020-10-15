@@ -2,6 +2,18 @@
   <div id="app">
     <div id="header">
       Photos wall Designer
+      <div class="donation">
+        <a
+          href="https://ko-fi.com/R6R41OKIA"
+          target="_blank"
+        ><img
+          height="36"
+          style="border:0px;height:36px;"
+          src="https://cdn.ko-fi.com/cdn/kofi2.png?v=2"
+          border="0"
+          alt="Buy Me a Coffee at ko-fi.com"
+        ></a>
+      </div>
     </div>
     <avaliableFramesList />
     <div
@@ -69,6 +81,9 @@ export default {
   font-size: 24px;
   padding-left: 10px;
   border-bottom: 1px solid Gainsboro;
+}
+.donation {
+  float: right;
 }
 
 #canvas-container {
