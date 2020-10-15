@@ -3,7 +3,7 @@ When I designed my house last year, I want to fill my wall with photo frames. On
 
 
 
-![alt text](https://raw.githubusercontent.com/thangman22/photoframe-designer/master/screenshot.png "Screenshot")
+![alt text](https://github.com/thangman22/photos-wall-designer/blob/master/screenshot.png "Screenshot")
 
 
 ## Development
