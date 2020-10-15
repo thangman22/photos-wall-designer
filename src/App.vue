@@ -4,7 +4,10 @@
       Photos wall Designer
     </div>
     <avaliableFramesList />
-    <div id="canvas-container">
+    <div
+      id="canvas-container"
+      :style="{backgroundColor: backgroundColor}"
+    >
       <dragableFrame
         v-for="frame in frames"
         :key="frame.key"
@@ -42,6 +45,9 @@ export default {
     };
   },
   computed: {
+    backgroundColor () {
+      return this.$store.state.background 
+    },
     frames () {
       return this.$store.state.frames
     }

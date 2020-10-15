@@ -56,24 +56,32 @@
       </ul>
     </div>
     <div
+      v-show="showSetting"
       id="frame-setting"
     >
-      <h3>Setting</h3>
+      <h3>Setting</h3><br>
       <div class="input-form">
         <label for="margin">Margin </label><input
+          v-model="margin"
           type="number"
           name="margin"
-          value="10"
           min="1"
           max="30"
         > cm
       </div>
       <div class="input-form">
         <label for="bg">Background </label><input
+          v-model="background"
           type="color"
           name="bg"
-          value="#FFFFFF"
         >
+      </div>
+      <div class="input-form">
+        <input
+          id="checkbox"
+          v-model="spacingGuide"
+          type="checkbox"
+        ><label for="bg">Spacing guide </label>
       </div>
     </div>
   </div>
@@ -97,10 +105,34 @@ export default {
   data() {
     return {
       showSummary: false,
-      toggleSetting: false
+      showSetting: false
     };
   },
   computed: {
+    margin: {
+      get () {
+        return this.$store.state.margin
+      },
+      set (value) {
+        this.$store.commit('changeMargin', value)
+      }
+    },
+    background: {
+      get () {
+        return this.$store.state.background
+      },
+      set (value) {
+        this.$store.commit('changeBackground', value)
+      }
+    },
+    spacingGuide: {
+      get () {
+        return this.$store.state.spacingGuide
+      },
+      set (value) {
+        this.$store.commit('changeSpacingGuide', value)
+      }
+    },
     summaryFrame() {
       let frames = this.frames;
       let summary = {};
@@ -122,8 +154,8 @@ export default {
     openPrintDialog() {
       window.print();
     },
-    toggleSeeting () {
-      this.toggleSetting = !this.toggleSetting;
+    toggleSetting () {
+      this.showSetting = !this.showSetting;
     },
     toggleSummary() {
       this.showSummary = !this.showSummary;
@@ -141,29 +173,23 @@ export default {
   text-align: right;
 }
 
-#frame-summary {
+#frame-summary, #frame-setting {
   padding: 10px;
   background: #fff;
   border: #023047 1px solid;
 }
 
-#frame-setting {
-  padding: 10px;
-  background: #fff;
-  border: #023047 1px solid;
-}
-
-#frame-summary > h3 {
+#frame-setting > h3, #frame-summary > h3 {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-#frame-summary > ul {
+#frame-setting > h3, #frame-summary > ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-#frame-summary > ul > li {
+#frame-setting > ul > li, #frame-summary > ul > li {
   font-size: 12px;
   padding: 5px;
 }

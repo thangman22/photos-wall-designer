@@ -69,20 +69,27 @@ export default {
   },
   data() {
     return {
-      spacingStyle: '',
-      padding: 0,
       mouseOverId: false,
       imageWidth: 0,
       imageHeight: 0,
       imageX: 0,
       imageY: 0,
       realImage: '',
-      margininCm: 10,
     };
   },
+  computed: {
+    padding () {
+      return this.$store.state.margin * this.$store.state.framePow
+    },
+    spacingStyle () {
+      if(this.$store.state.spacingGuide) {
+        return '#577590 1px solid'
+      } else {
+        return ''
+      }
+    }  
+  },
   async mounted () {
-    // this.spacingStyle = '#577590 1px solid'
-    this.padding = (this.margininCm / 10) * this.$store.state.framePow
     await this.initImage()
   },
   methods: {

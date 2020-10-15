@@ -7,15 +7,19 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     frames: {},
-    margin: 0,
-    background: '#FFF',
+    margin: 2,
+    background: '#FFFFFF',
+    spacingGuide: true,
     framePow: 3.6
   },
   mutations: {
     changeBackground (state, background) {
       state.background = background
     },
-    changeMagin (state, margin) {
+    changeSpacingGuide (state, spacingChecked) {
+      state.spacingGuide = spacingChecked
+    },
+    changeMargin (state, margin) {
       state.margin = margin
     },
     manipulateFrame(state,{id,field,value}) {
